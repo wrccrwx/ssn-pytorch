@@ -80,7 +80,7 @@ if __name__ == "__main__":
     parser.add_argument("--weight", default=None, type=str, help="/path/to/pretrained_weight")
     parser.add_argument("--fdim", default=20, type=int, help="embedding dimension")
     parser.add_argument("--niter", default=10, type=int, help="number of iterations for differentiable SLIC")
-    parser.add_argument("--nspix", default=100, type=int, help="number of superpixels")
+    parser.add_argument("--nspix", default=2000, type=int, help="number of superpixels")
     parser.add_argument("--color_scale", default=0.26, type=float)
     parser.add_argument("--pos_scale", default=2.5, type=float)
     args = parser.parse_args()
@@ -90,4 +90,7 @@ if __name__ == "__main__":
     s = time.time()
     label = inference(image, args.nspix, args.niter, args.fdim, args.color_scale, args.pos_scale, args.weight)
     print(f"time {time.time() - s}sec")
-    plt.imsave("results.png", mark_boundaries(image, label))
+    plt.imsave("results_ori.png", mark_boundaries(image, label))
+    # make a change to saving images
+    blank_img = np.zeros_like(image)
+    plt.imsave("results_cheap.png", mark_boundaries(blank_img, label))
